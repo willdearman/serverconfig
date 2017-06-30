@@ -10,3 +10,8 @@ _site
 .Bin
 node_modules/
 node_modules/*
+data/apps/*
+data/data/*
+data/images/*
+data/themes/*
+
