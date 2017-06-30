@@ -36,7 +36,7 @@ services:
     # Our blog will have persistent data, so we store that
     #   in a folder created at 'blog/data/ghost'
     volumes:
-      - /data/ghost:/var/lib/ghost:rw
+      - ./data/ghost:/var/lib/ghost:rw
     # We'll also let Ghost know that we are in production
     environment:
       - NODE_ENV=production
