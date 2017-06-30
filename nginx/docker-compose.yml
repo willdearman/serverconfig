@@ -1,0 +1,42 @@
+# Specify compose-file version 2
+version: '2'
+
+# Services are essentially all of the containers that need to be run
+# We'll create one service for NGINX and one for Ghost
+services:  
+  nginx:
+    # We'll tell Docker how to build our custom NGINX image
+    build:
+      context: nginx/
+      dockerfile: Dockerfile
+    # We can also tell Docker what to name the built image
+    # This image can be reused so it's great to name it!
+    image: example/nginx:latest
+    # We can name the container when the app runs
+    container_name: example-nginx
+    # Set the service to restart if it crashes
+    restart: always
+    # Here we expose port 80 in our NGINX container to the world
+    # This let's us actually access the site!
+    ports:
+      - 80:80
+    # And we make sure Docker knows we need access to ghost
+    # This is the reason we can simply say 'ghost' in our
+    #   NGINX config
+    depends_on:
+      - ghost
+  ghost:
+    # Lucky for us, there is an official Ghost image for Docker
+    # You don't need to do any extra work, just write the name!
+    image: ghost
+    # Again, naming our container when it is run
+    container_name: example-ghost
+    # And restarting our blog if it crashes
+    restart: always
+    # Our blog will have persistent data, so we store that
+    #   in a folder created at 'blog/data/ghost'
+    volumes:
+      - ./data/ghost:/var/lib/ghost:rw
+    # We'll also let Ghost know that we are in production
+    environment:
+      - NODE_ENV=production
