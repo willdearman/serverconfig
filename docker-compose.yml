@@ -1,30 +1,44 @@
-# Specify compose-file version 2
 version: '2'
 
-# Services are essentially all of the containers that need to be run
-# We'll create one service for NGINX and one for Ghost
 services:  
   nginx:
     # We'll tell Docker how to build our custom NGINX image
-    build:
-      context: nginx/
-      dockerfile: Dockerfile
+    # build:
+      # context: nginx/
+      # dockerfile: Dockerfile
     # We can also tell Docker what to name the built image
     # This image can be reused so it's great to name it!
-    image: example/nginx:latest
+    # image: example/nginx:latest
+    image: jwilder/nginx-proxy
     # We can name the container when the app runs
-    container_name: example-nginx
+    # container_name: example-nginx
+    container_name: nginx-proxy
     # Set the service to restart if it crashes
     restart: always
     # Here we expose port 80 in our NGINX container to the world
     # This let's us actually access the site!
     ports:
       - 80:80
+      - 443:443
+    volumes:
+      - '/etc/nginx/vhost.d'
+      - '/usr/share/nginx/html'
+      - '/etc/nginx/certs:/etc/nginx/certs:ro' 
+      - '/var/run/docker.sock:/tmp/docker.sock:ro'
     # And we make sure Docker knows we need access to ghost
     # This is the reason we can simply say 'ghost' in our
     #   NGINX config
     depends_on:
       - ghost
+      - letsencrypt-nginx-proxy
+  letsencrypt-nginx-proxy:
+    container_name: letsencrypt-nginx-proxy
+    image: 'jrcs/letsencrypt-nginx-proxy-companion'
+    volumes:
+      - '/etc/nginx/certs:/etc/nginx/certs'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+    volumes_from:
+      - nginx-proxy
   ghost:
     # Lucky for us, there is an official Ghost image for Docker
     # You don't need to do any extra work, just write the name!
@@ -39,4 +53,19 @@ services:
       - ./data/ghost:/var/lib/ghost:rw
     # We'll also let Ghost know that we are in production
     environment:
+      - PROD_DOMAIN=https://blog.willdearman.co
       - NODE_ENV=production
+      # - PROD_MAIL_TRANSPORT=SMTP
+      # - PROD_MAIL_SERVICE=Mailgun
+      # - PROD_MAIL_USER=
+      # - PROD_MAIL_PASS=25ip4bzyjwo1
+      - VIRTUAL_HOST=blog.willdearman.co
+      - LETSENCRYPT_HOST=blog.willdearman.co
+      - LETSENCRYPT_EMAIL=will@willdearman.com
+    #
+    expose:
+      - 2368:2368
+networks:  
+  default:
+    external:
+      name: nginx-net
