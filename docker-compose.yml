@@ -43,6 +43,8 @@ services:
       - PROD_DOMAIN=https://blog.willdearman.com
       - NODE_ENV=production
       - VIRTUAL_HOST=blog.willdearman.com
+      - LETSENCRYPT_HOST=blog.willdearman.com
+      - LETSENCRYPT_EMAIL="will@willdearman.com"
     # Secrets I dont want in Github are included in the .env file 
     env_file:
       - credentials/blog_willdearman_com.env
