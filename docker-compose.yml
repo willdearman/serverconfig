@@ -49,6 +49,14 @@ services:
     #
     expose:
       - "2368"
+  nginx-serve:
+    image: nginx-alpine
+    container_name: nginx-serve
+    restart: always
+    volumes:
+      - ./static-sites/www_willdearman_com:/var/www/app/webroot
+    expose:
+      - "80"
 # On new maching must run the following command to create network
 #   docker network create nginx-net
 networks:  
