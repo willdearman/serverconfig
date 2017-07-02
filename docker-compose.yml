@@ -60,8 +60,8 @@ services:
       - NGINX_PORT=80 
     env_file:
       - credentials/www_willdearman_com.env
-    expose:
-      - "80"
+    ports:
+      - 80:80
 # On new maching must run the following command to create network
 #   docker network create nginx-net
 networks:  
