@@ -48,7 +48,7 @@ services:
     expose:
       - "2368"
   nginx-serve:
-    image: nginx:alpine
+    image: nginx
     container_name: nginx-serve
     restart: always
     volumes:
