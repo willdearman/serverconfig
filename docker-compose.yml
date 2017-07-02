@@ -55,6 +55,11 @@ services:
     restart: always
     volumes:
       - ./static-sites/www_willdearman_com:/var/www/app/webroot
+    environment:
+      - PROD_DOMAIN=https://www.willdearman.com
+      - VIRTUAL_HOST=www.willdearman.com
+      - LETSENCRYPT_HOST=www.willdearman.com
+      - LETSENCRYPT_EMAIL="will@willdearman.com"  
     expose:
       - "80"
 # On new maching must run the following command to create network
