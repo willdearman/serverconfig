@@ -9,5 +9,10 @@
 node_modules/
 node_modules/*
 !data/*
-data/**
-!data/**/data/config.js
+!data/**/config.js
+data/**/data/*
+data/**/apps/*
+data/**/images/*
+data/**/themes/*
+!data/**/config.js
+data/**/data/*
