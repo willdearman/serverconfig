@@ -14,7 +14,7 @@ nginx-gen:
   container_name: nginx-gen
   volumes:
     - "/var/run/docker.sock:/tmp/docker.sock:ro"
-    - "./static-sites/proxy/nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro"
+    - "./static-sites/proxy/nginx:/etc/docker-gen/templates:ro"
   volumes_from:
     - nginx
   entrypoint: /usr/local/bin/docker-gen -notify-sighup nginx -watch -only-exposed -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
@@ -32,7 +32,7 @@ simple-site:
   image: nginx
   container_name: simple-site
   volumes:
-    - "./static-sites/www_willdearman_com/conf.d:/etc/nginx/conf.d"
+    - "./static-sites/www_willdearman_com/nginx:/etc/nginx:ro"
   environment:
     - VIRTUAL_HOST=www.willdearman.com
     - LETSENCRYPT_HOST=www.willdearman.com
