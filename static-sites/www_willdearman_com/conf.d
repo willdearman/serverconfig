@@ -1,6 +1,6 @@
 
 server {
     listen                  80;
-    server_name             www.example.com;
+    server_name             www.willdearman.com;
     root                    /usr/share/nginx/html;
 }
