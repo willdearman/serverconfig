@@ -20,7 +20,6 @@ services:
     #   NGINX config
     depends_on:
       - blog_willdearman_com
-      - nginx-serve
   letsencrypt-nginx-proxy:
     container_name: letsencrypt-nginx-proxy
     image: 'jrcs/letsencrypt-nginx-proxy-companion'
