@@ -8,6 +8,6 @@
 .Bin
 node_modules/
 node_modules/*
-!data/
-data/*
-!data/**/config.js
+!data/*
+data/**
+!data/**/data/config.js
