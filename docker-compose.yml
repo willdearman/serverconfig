@@ -28,6 +28,19 @@ services:
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
     volumes_from:
       - nginx-proxy
+  nginx-serve:
+    image: nginx
+    container_name: nginx-serve
+    restart: always
+    volumes:
+      - ./static-sites/www_willdearman_com:/usr/share/nginx/html:ro
+    environment:
+      - VIRTUAL_HOST=www.willdearman.com
+      - PROD_DOMAIN=https://www.willdearman.com
+      - NGINX_HOST=www.willdearman.com
+      - NGINX_PORT=2644
+    expose:
+      - "2644"
   blog_willdearman_com:
     # Official Ghost image for Docker
     image: ghost
@@ -47,19 +60,6 @@ services:
       - LETSENCRYPT_EMAIL="will@willdearman.com"
     expose:
       - "2368"
-  nginx-serve:
-    image: nginx
-    container_name: nginx-serve
-    restart: always
-    volumes:
-      - ./static-sites/www_willdearman_com:/usr/share/nginx/html:ro
-    environment:
-      - VIRTUAL_HOST=www.willdearman.com
-      - PROD_DOMAIN=https://www.willdearman.com
-      - NGINX_HOST=www.willdearman.com
-      - NGINX_PORT=2644
-    expose:
-      - "2644"
 # On new maching must run the following command to create network
 #   docker network create nginx-net
 # networks:  
