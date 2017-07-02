@@ -19,34 +19,25 @@ services:
     # This is the reason we can simply say 'ghost' in our
     #   NGINX config
     depends_on:
-      - ghost
-  letsencrypt-nginx-proxy:
-    container_name: letsencrypt-nginx-proxy
-    image: 'jrcs/letsencrypt-nginx-proxy-companion'
-    volumes:
-      - '/etc/nginx/certs:/etc/nginx/certs'
-      - '/var/run/docker.sock:/var/run/docker.sock:ro'
-    volumes_from:
-      - nginx-proxy
-  ghost:
+      - blog_willdearman_com
+  blog_willdearman_com:
     # Official Ghost image for Docker
     image: ghost
-    container_name: example-ghost
+    container_name: blog_willdearman_com
     # Restarting our blog if it crashes
     restart: always
     # Our blog will have persistent data, so we store that
     #   in a folder created at 'blog/data/ghost'
     volumes:
-      - ./data/ghost:/var/lib/ghost:rw
+      - ./data/blog_willdearman_com:/var/lib/ghost:rw
     # We'll also let Ghost know that we are in production
     environment:
-      - PROD_DOMAIN=https://blog.willdearman.co
+      - PROD_DOMAIN=https://blog.willdearman.com
       - NODE_ENV=production
-      - VIRTUAL_HOST=blog.willdearman.co
+      - VIRTUAL_HOST=blog.willdearman.com
     # Secrets I dont want in Github are included in the .env file 
     env_file:
-      - credentials/blog_willdearman_co.env
-    #
+      - credentials/blog_willdearman_com.env
     expose:
       - "2368"
   nginx-serve:
@@ -58,11 +49,19 @@ services:
     environment:
       - VIRTUAL_HOST=www.willdearman.com
       - NGINX_HOST=www.willdearman.com
-      - NGINX_PORT=80
-      - LETSENCRYPT_HOST=www.willdearman.com
-      - LETSENCRYPT_EMAIL="will@willdearman.com"  
+      - NGINX_PORT=80 
+    env_file:
+      - credentials/www_willdearman_com.env
     expose:
       - "80"
+  letsencrypt-nginx-proxy:
+    container_name: letsencrypt-nginx-proxy
+    image: 'jrcs/letsencrypt-nginx-proxy-companion'
+    volumes:
+      - '/etc/nginx/certs:/etc/nginx/certs'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+    volumes_from:
+      - nginx-proxy
 # On new maching must run the following command to create network
 #   docker network create nginx-net
 networks:  
