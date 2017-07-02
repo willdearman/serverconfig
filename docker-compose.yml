@@ -2,16 +2,11 @@ version: '2'
 
 services:  
   nginx-proxy:
-    # We can also tell Docker what to name the built image
-    # This image can be reused so it's great to name it!
-    # image: example/nginx:latest
     image: jwilder/nginx-proxy
     # We can name the container when the app runs
     container_name: nginx-proxy
     # Set the service to restart if it crashes
     restart: always
-    # Here we expose port 80 in our NGINX container to the world
-    # This let's us actually access the site!
     ports:
       - 80:80
       - 443:443
@@ -34,12 +29,10 @@ services:
     volumes_from:
       - nginx-proxy
   ghost:
-    # Lucky for us, there is an official Ghost image for Docker
-    # You don't need to do any extra work, just write the name!
+    # Official Ghost image for Docker
     image: ghost
-    # Again, naming our container when it is run
     container_name: example-ghost
-    # And restarting our blog if it crashes
+    # Restarting our blog if it crashes
     restart: always
     # Our blog will have persistent data, so we store that
     #   in a folder created at 'blog/data/ghost'
@@ -59,6 +52,8 @@ services:
     #
     expose:
       - "2368"
+# On new maching must run the following command to create network
+#   docker network create nginx-net
 networks:  
   default:
     external:
