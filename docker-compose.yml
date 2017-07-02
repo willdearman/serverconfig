@@ -62,7 +62,7 @@ services:
       - "2644"
 # On new maching must run the following command to create network
 #   docker network create nginx-net
-networks:  
-  default:
-    external:
-      name: nginx-net
+# networks:  
+#  default:
+#    external:
+#      name: nginx-net
