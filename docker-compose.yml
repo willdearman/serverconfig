@@ -55,5 +55,5 @@ blog_willdearman_com:
     - VIRTUAL_HOST=blog.willdearman.com
     - LETSENCRYPT_HOST=blog.willdearman.com
     - LETSENCRYPT_EMAIL="will@willdearman.com"
-    expose:
+  expose:
       - "2368"
