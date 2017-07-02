@@ -33,7 +33,7 @@ services:
     container_name: nginx-serve
     restart: always
     volumes:
-      - ./static-sites/www_willdearman_com/conf.d/:/etc/nginx/conf.d
+      - ./static-sites/www_willdearman_com/conf.d:/etc/nginx/conf.d
       - ./static-sites/www_willdearman_com/html:/usr/share/nginx/html:ro
     environment:
       - VIRTUAL_HOST=www.willdearman.com
