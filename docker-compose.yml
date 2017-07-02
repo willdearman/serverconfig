@@ -50,14 +50,14 @@ services:
     expose:
       - "2368"
   nginx-serve:
-    image: alpine-nginx
+    image: nginx:alpine
     container_name: nginx-serve
     restart: always
     volumes:
-      - ./static-sites/www_willdearman_com:/var/www/app/webroot
+      - ./static-sites/www_willdearman_com:/usr/share/nginx/html:ro
     environment:
-      - PROD_DOMAIN=https://www.willdearman.com
-      - VIRTUAL_HOST=www.willdearman.com
+      - NGINX_HOST=www.willdearman.com
+      - NGINX_PORT=80
       - LETSENCRYPT_HOST=www.willdearman.com
       - LETSENCRYPT_EMAIL="will@willdearman.com"  
     expose:
