@@ -1,17 +1,12 @@
 version: '2'
 
 services:  
-  nginx:
-    # We'll tell Docker how to build our custom NGINX image
-    # build:
-      # context: nginx/
-      # dockerfile: Dockerfile
+  nginx-proxy:
     # We can also tell Docker what to name the built image
     # This image can be reused so it's great to name it!
     # image: example/nginx:latest
     image: jwilder/nginx-proxy
     # We can name the container when the app runs
-    # container_name: example-nginx
     container_name: nginx-proxy
     # Set the service to restart if it crashes
     restart: always
@@ -30,7 +25,6 @@ services:
     #   NGINX config
     depends_on:
       - ghost
-      - letsencrypt-nginx-proxy
   letsencrypt-nginx-proxy:
     container_name: letsencrypt-nginx-proxy
     image: 'jrcs/letsencrypt-nginx-proxy-companion'
@@ -61,10 +55,10 @@ services:
       # - PROD_MAIL_PASS=25ip4bzyjwo1
       - VIRTUAL_HOST=blog.willdearman.co
       - LETSENCRYPT_HOST=blog.willdearman.co
-      - LETSENCRYPT_EMAIL=will@willdearman.com
+      - LETSENCRYPT_EMAIL="will@willdearman.com"
     #
     expose:
-      - 2368:2368
+      - "2368"
 networks:  
   default:
     external:
