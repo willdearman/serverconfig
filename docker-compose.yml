@@ -20,6 +20,14 @@ services:
     #   NGINX config
     depends_on:
       - blog_willdearman_com
+  letsencrypt-nginx-proxy:
+    container_name: letsencrypt-nginx-proxy
+    image: 'jrcs/letsencrypt-nginx-proxy-companion'
+    volumes:
+      - '/etc/nginx/certs:/etc/nginx/certs'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+    volumes_from:
+      - nginx-proxy
   blog_willdearman_com:
     # Official Ghost image for Docker
     image: ghost
@@ -54,14 +62,6 @@ services:
       - credentials/www_willdearman_com.env
     expose:
       - "80"
-  letsencrypt-nginx-proxy:
-    container_name: letsencrypt-nginx-proxy
-    image: 'jrcs/letsencrypt-nginx-proxy-companion'
-    volumes:
-      - '/etc/nginx/certs:/etc/nginx/certs'
-      - '/var/run/docker.sock:/var/run/docker.sock:ro'
-    volumes_from:
-      - nginx-proxy
 # On new maching must run the following command to create network
 #   docker network create nginx-net
 networks:  
