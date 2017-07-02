@@ -33,7 +33,7 @@ services:
     container_name: nginx-serve
     restart: always
     volumes:
-      - - "../../../volumes/examples/simple-site/conf.d/:/etc/nginx/conf.d"
+      # - "../../../volumes/examples/simple-site/conf.d/:/etc/nginx/conf.d"
       - ./static-sites/www_willdearman_com:/usr/share/nginx/html:ro
     volumes_from:
       - nginx-proxy
