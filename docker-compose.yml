@@ -42,13 +42,10 @@ services:
     environment:
       - PROD_DOMAIN=https://blog.willdearman.co
       - NODE_ENV=production
-      # - PROD_MAIL_TRANSPORT=SMTP
-      # - PROD_MAIL_SERVICE=Mailgun
-      # - PROD_MAIL_USER=
-      # - PROD_MAIL_PASS=25ip4bzyjwo1
       - VIRTUAL_HOST=blog.willdearman.co
-      - LETSENCRYPT_HOST=blog.willdearman.co
-      - LETSENCRYPT_EMAIL="will@willdearman.com"
+    # Secrets I dont want in Github are included in the .env file 
+    env_file:
+      - credentials/blog_willdearman_co.env
     #
     expose:
       - "2368"

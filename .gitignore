@@ -16,3 +16,4 @@ data/**/images/*
 data/**/themes/*
 !data/**/config.js
 data/**/data/*
+credentials/*
