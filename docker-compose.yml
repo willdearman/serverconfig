@@ -14,7 +14,7 @@ nginx-gen:
   container_name: nginx-gen
   volumes:
     - "/var/run/docker.sock:/tmp/docker.sock:ro"
-    - "./static-sites/proxy/nginx:/etc/docker-gen/templates:ro"
+    - "./static-sites/proxy/nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro"
   volumes_from:
     - nginx
   entrypoint: /usr/local/bin/docker-gen -notify-sighup nginx -watch -only-exposed -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
@@ -32,8 +32,28 @@ simple-site:
   image: nginx
   container_name: simple-site
   volumes:
-    - "./static-sites/www_willdearman_com/nginx:/etc/nginx:ro"
+    - ./static-sites/www_willdearman_com/conf.d:/etc/nginx/conf.d:ro
+    - ./static-sites/www_willdearman_com/html:/usr/share/nginx/html:ro
   environment:
     - VIRTUAL_HOST=www.willdearman.com
     - LETSENCRYPT_HOST=www.willdearman.com
     - LETSENCRYPT_EMAIL=will@willdearman.com
+blog_willdearman_com:
+    # Official Ghost image for Docker
+  image: ghost
+  container_name: blog_willdearman_com
+  # Restarting our blog if it crashes
+  restart: always
+  # Our blog will have persistent data, so we store that
+  #   in a folder created at 'blog/data/ghost'
+  volumes:
+    - ./data/blog_willdearman_com:/var/lib/ghost:rw
+  # We'll also let Ghost know that we are in production
+  environment:
+    - PROD_DOMAIN=https://blog.willdearman.com
+    - NODE_ENV=production
+    - VIRTUAL_HOST=blog.willdearman.com
+    - LETSENCRYPT_HOST=blog.willdearman.com
+    - LETSENCRYPT_EMAIL="will@willdearman.com"
+    expose:
+      - "2368"
