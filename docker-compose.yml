@@ -42,8 +42,8 @@ services:
       - VIRTUAL_PORT=80
       - NGINX_HOST=www.willdearman.com
       - NGINX_PORT=80
-    networks:
-      - proxy-tier
+    #networks:
+    #  - proxy-tier
   blog_willdearman_com:
     # Official Ghost image for Docker
     image: ghost
