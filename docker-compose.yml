@@ -57,3 +57,22 @@ blog_willdearman_com:
     - LETSENCRYPT_EMAIL="will@willdearman.com"
   expose:
       - "2368"
+hello_willdearman_com:
+    # Official Ghost image for Docker
+  image: ghost
+  container_name: hello_willdearman_com
+  # Restarting our blog if it crashes
+  restart: always
+  # Our blog will have persistent data, so we store that
+  #   in a folder created at 'blog/data/ghost'
+  volumes:
+    - ./data/hello_willdearman_com:/var/lib/ghost:rw
+  # We'll also let Ghost know that we are in production
+  environment:
+    - PROD_DOMAIN=https://hello.willdearman.com
+    - NODE_ENV=production
+    - VIRTUAL_HOST=hello.willdearman.com
+    - LETSENCRYPT_HOST=hello.willdearman.com
+    - LETSENCRYPT_EMAIL="will@willdearman.com"
+  expose:
+      - "2368"
